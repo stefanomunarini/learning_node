@@ -1,14 +1,13 @@
 var net = require('net')
+
+function padding(value) {return value < 10 ? '0' + value : value};
+
 var server = net.createServer(function (socket) {
     now = new Date();
-    month = now.getMonth() + 1;
-    day = now.getDate();
-    if (day<10){
-      day = 0 + '' + day;
-    }
-    date = now.getFullYear() + '-' + month + '-' + day + ' ' + now.getHours() + ':' + now.getMinutes();
-    socket.write(date);
-    socket.end();
+    socket.end(padding(now.getFullYear()) + '-' +
+               padding(now.getMonth() + 1) + '-' +
+               padding(now.getDate()) + ' ' +
+               padding(now.getHours()) + ':' +
+               padding(now.getMinutes()) + '\n');
 });
 server.listen(Number(process.argv[2]));
-
